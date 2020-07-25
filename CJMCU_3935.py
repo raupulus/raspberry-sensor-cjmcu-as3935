@@ -86,7 +86,7 @@ class CJMCU_3935(AbstractModel):
             print ("Disturber detected - masking")
             sensor.set_mask_disturber(True)
         elif reason == 0x08:
-            now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             distance = sensor.get_distance()
             print("We sensed lightning!")
             print("It was " + str(distance) + "km away. (%s)" % now)
@@ -97,6 +97,10 @@ class CJMCU_3935(AbstractModel):
         Devuelve un diccionario con todas las lecturas si se han podido tomar.
         :return:
         """
+
+        ## TODO → Mirando como almacenar datos para obtenerlos por lotes cada
+        ## vez que uno sea detectado
+
         if self.???:
             return {
                 "x": self.read_x(),
@@ -111,21 +115,13 @@ class CJMCU_3935(AbstractModel):
         """
         return {
             'strike': {
-                'type': 'Numeric',
-                'params': {
-                    'precision': 15,
-                    'asdecimal': True,
-                    'scale': 4
-                },
+                'type': 'String',
+                'params': {},
                 'others': None,
             },
             'distance': {
-                'type': 'Numeric',
-                'params': {
-                    'precision': 15,
-                    'asdecimal': True,
-                    'scale': 4
-                },
+                'type': 'String',
+                'params': {},
                 'others': None,
             },
             'type': {
@@ -138,12 +134,8 @@ class CJMCU_3935(AbstractModel):
                 'others': None,
             },
             'energy': {
-                'type': 'Numeric',
-                'params': {
-                    'precision': 22,
-                    'asdecimal': True,
-                    'scale': 11
-                },
+                'type': 'String',
+                'params': {},
                 'others': None,
             },
             'created_at': {
