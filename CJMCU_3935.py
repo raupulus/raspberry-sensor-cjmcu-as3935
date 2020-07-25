@@ -48,3 +48,12 @@ import datetime
 import time
 from AbstractModel import AbstractModel
 from _thread import start_new_thread
+
+class CJMCU_3935(AbstractModel):
+    table_name = 'table_lightning'
+    sensor = None
+
+    def __init__(self, mode_debug=False):
+        self.sensor = RPi_AS3935()
+        self.mode_debug = mode_debug
+
