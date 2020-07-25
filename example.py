@@ -44,7 +44,7 @@
 from time import sleep
 from CJMCU_3935 import CJMCU_3935
 
-lightning = CJMCU_3935(primary=False, mode_debug=True, calibrate=True)
+lightning = CJMCU_3935(mode_debug=True)
 
 try:
     while True:
