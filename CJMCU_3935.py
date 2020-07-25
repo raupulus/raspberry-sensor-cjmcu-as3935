@@ -47,9 +47,6 @@ from RPi_AS3935 import RPi_AS3935
 import datetime
 import time
 from AbstractModel import AbstractModel
-import RPi.GPIO as GPIO
-
-GPIO.setmode(GPIO.BCM)
 
 class CJMCU_3935(AbstractModel):
     table_name = 'table_lightning'
