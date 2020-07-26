@@ -53,11 +53,14 @@ class CJMCU_3935(AbstractModel):
     sensor = None
     has_debug = False
 
-    def __init__(self, address=0x03, bus=1, mode_debug=False, indoor=True,
-                 pin=25):
-        self.sensor = RPi_AS3935(address=address, bus=bus)
+    def __init__(self, address=0x03, bus=1, mode_debug=False, indoor=True, pin=25):
+        # Marco el modo debug para el modelo.
         self.has_debug = mode_debug
 
+        # Instancio el sensor como atributo de este modelo.
+        self.sensor = RPi_AS3935(address=address, bus=bus)
+
+        # Aplico parámetros de configuración para que trabaje el modelo.
         time.sleep(1)
         self.sensor.set_indoors(indoor)
         time.sleep(1)
@@ -66,11 +69,14 @@ class CJMCU_3935(AbstractModel):
         self.sensor.calibrate(tun_cap=0x0F)
         time.sleep(1)
 
+        ## Establezco parámetros de configuración en el modelo.
         self.pin = pin
 
+        # Configuro el pin
+        GPIO.setup(self.pin, GPIO.IN)
+
         ## Inicio Callback para en cada detección registrar rayo
-        GPIO.setup(pin, GPIO.IN)
-        GPIO.add_event_detect(pin, GPIO.RISING, callback=self.handle_interrupt)
+        GPIO.add_event_detect(self.pin, GPIO.RISING, callback=self.handle_interrupt)
 
         self.msg('Waiting for lightning - or at least something that looks like it')
 
