@@ -105,8 +105,10 @@ class CJMCU_3935(AbstractModel):
             self.msg(str(self.sensor.get_mask_disturber()))
             self.msg(str(self.sensor.get_disp_lco()))
 
-            if has_debug:
+            if self.has_debug:
                 # TODO → Escribir en un archivo
+                pass
+
     def strike(self):
         return None
 
