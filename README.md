@@ -26,6 +26,8 @@ modificarlos a nuestro uso.
 - Está conectado por i2c
 - La dirección i2c es 0x03
 - El pin por defecto es el GPIO25
+- El bus por defecto a partir de Raspberry Pi 2 es comúnmente el **1**, 
+para anteriores es necesario cambiarlo a **0**
 
 ## Conexión con hardware
 
