@@ -44,10 +44,7 @@
 from time import sleep
 from CJMCU_3935 import CJMCU_3935
 
-import RPi.GPIO as GPIO
 import time
-
-GPIO.setmode(GPIO.BCM)
 
 lightning = CJMCU_3935(mode_debug=True, indoor=True, pin=25)
 

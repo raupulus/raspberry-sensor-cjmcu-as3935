@@ -43,10 +43,13 @@
 # usando el chip AS3935 por i2c en raspberry
 
 
-from RPi_AS3935 import RPi_AS3935
+from RPi_AS3935.RPi_AS3935 import RPi_AS3935
 import datetime
 import time
 from AbstractModel import AbstractModel
+import RPi.GPIO as GPIO
+
+GPIO.setmode(GPIO.BCM)
 
 class CJMCU_3935(AbstractModel):
     table_name = 'table_lightning'
@@ -58,7 +61,7 @@ class CJMCU_3935(AbstractModel):
         self.has_debug = mode_debug
 
         # Instancio el sensor como atributo de este modelo.
-        self.sensor = RPi_AS3935(address=address, bus=bus)
+        self.sensor = RPi_AS3935(address, bus=bus)
 
         # Aplico parámetros de configuración para que trabaje el modelo.
         time.sleep(1)
