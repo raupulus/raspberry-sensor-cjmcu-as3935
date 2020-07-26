@@ -85,7 +85,7 @@ class CJMCU_3935(AbstractModel):
         self.msg('Waiting for lightning - or at least something that looks like it')
 
         if self.has_debug:
-            fo = open("log_rayos.log", "r+")
+            fo = open("log_rayos.log", "a")
             str = "Inicializado sensor y Esperando datos"
             fo.write(str + os.linesep)
             fo.close()
@@ -122,7 +122,7 @@ class CJMCU_3935(AbstractModel):
             self.msg(str(self.sensor.get_disp_lco()))
 
             if self.has_debug:
-                fo = open("log_rayos.log", "r+")
+                fo = open("log_rayos.log", "a")
                 fo.write('--------------------------' + os.linesep)
                 fo.write(str(self.sensor.get_distance()) + os.linesep)
                 fo.write(str(self.sensor.get_interrupt()) + os.linesep)
