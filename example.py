@@ -45,15 +45,19 @@ from time import sleep
 from CJMCU_3935 import CJMCU_3935
 
 import RPi.GPIO as GPIO
+import time
+
 GPIO.setmode(GPIO.BCM)
 
-lightning = CJMCU_3935(mode_debug=True)
+lightning = CJMCU_3935(mode_debug=True, indoor=True, pin=25)
 
 try:
     while True:
         print('')
 
-        lightning.debug()
+        #lightning.debug()
+
+        time.sleep(1.0)
 
 except KeyboardInterrupt:
     pass
