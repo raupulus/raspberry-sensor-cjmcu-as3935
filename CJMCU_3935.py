@@ -55,7 +55,7 @@ class CJMCU_3935(AbstractModel):
 
     def __init__(self, address=0x03, bus=1, mode_debug=False, indoor=True,
                  pin=25):
-        self.sensor = RPi_AS3935(address, bus)
+        self.sensor = RPi_AS3935(address=address, bus=bus)
         self.has_debug = mode_debug
 
         time.sleep(1)
