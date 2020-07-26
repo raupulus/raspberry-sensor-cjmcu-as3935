@@ -83,6 +83,12 @@ class CJMCU_3935(AbstractModel):
 
         self.msg('Waiting for lightning - or at least something that looks like it')
 
+        if self.has_debug:
+            fo = open("log_rayos.log", "r+")
+            str = "Inicializado sensor y Esperando datos"
+            fo.write(str)
+            fo.close()
+
     def handle_interrupt(self, channel):
         """
         Función que se ejecuta cuando detecta un rayo para registrarlo
@@ -115,8 +121,18 @@ class CJMCU_3935(AbstractModel):
             self.msg(str(self.sensor.get_disp_lco()))
 
             if self.has_debug:
-                # TODO → Escribir en un archivo
-                pass
+                fo = open("log_rayos.log", "r+")
+                fo.write('--------------------------')
+                fo.write(str(self.sensor.get_distance()))
+                fo.write(str(self.sensor.get_interrupt()))
+                fo.write(str(self.sensor.get_energy()))
+                fo.write(str(self.sensor.get_noise_floor()))
+                fo.write(str(self.sensor.get_indoors()))
+                fo.write(str(self.sensor.get_mask_disturber()))
+                fo.write(str(self.sensor.get_disp_lco()))
+                fo.write('--------------------------')
+                fo.write('')
+                fo.close()
 
     def strike(self):
         return None
