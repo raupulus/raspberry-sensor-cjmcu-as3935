@@ -46,6 +46,7 @@
 from RPi_AS3935.RPi_AS3935 import RPi_AS3935
 import datetime
 import time
+import os
 from AbstractModel import AbstractModel
 import RPi.GPIO as GPIO
 
@@ -86,7 +87,7 @@ class CJMCU_3935(AbstractModel):
         if self.has_debug:
             fo = open("log_rayos.log", "r+")
             str = "Inicializado sensor y Esperando datos"
-            fo.write(str)
+            fo.write(str + os.linesep)
             fo.close()
 
     def handle_interrupt(self, channel):
@@ -122,16 +123,16 @@ class CJMCU_3935(AbstractModel):
 
             if self.has_debug:
                 fo = open("log_rayos.log", "r+")
-                fo.write('--------------------------')
-                fo.write(str(self.sensor.get_distance()))
-                fo.write(str(self.sensor.get_interrupt()))
-                fo.write(str(self.sensor.get_energy()))
-                fo.write(str(self.sensor.get_noise_floor()))
-                fo.write(str(self.sensor.get_indoors()))
-                fo.write(str(self.sensor.get_mask_disturber()))
-                fo.write(str(self.sensor.get_disp_lco()))
-                fo.write('--------------------------')
-                fo.write('')
+                fo.write('--------------------------' + os.linesep)
+                fo.write(str(self.sensor.get_distance()) + os.linesep)
+                fo.write(str(self.sensor.get_interrupt()) + os.linesep)
+                fo.write(str(self.sensor.get_energy()) + os.linesep)
+                fo.write(str(self.sensor.get_noise_floor()) + os.linesep)
+                fo.write(str(self.sensor.get_indoors()) + os.linesep)
+                fo.write(str(self.sensor.get_mask_disturber()) + os.linesep)
+                fo.write(str(self.sensor.get_disp_lco()) + os.linesep)
+                fo.write('--------------------------' + os.linesep)
+                fo.write('' + os.linesep)
                 fo.close()
 
     def strike(self):
