@@ -43,7 +43,7 @@
 # usando el chip AS3935 por i2c en raspberry
 
 
-from RPi_AS3935 import RPi_AS3935
+from Rpi_AS3935 import RPi_AS3935
 import datetime
 import time
 from AbstractModel import AbstractModel
@@ -51,15 +51,20 @@ from AbstractModel import AbstractModel
 class CJMCU_3935(AbstractModel):
     table_name = 'table_lightning'
     sensor = None
+    has_debug = False
 
     def __init__(self, address=0x03, bus=1, mode_debug=False, indoor=True,
                  pin=25):
         self.sensor = RPi_AS3935(address, bus)
-        self.mode_debug = mode_debug
+        self.has_debug = mode_debug
 
+        time.sleep(1)
         self.sensor.set_indoors(indoor)
+        time.sleep(1)
         self.sensor.set_noise_floor(0)
+        time.sleep(1)
         self.sensor.calibrate(tun_cap=0x0F)
+        time.sleep(1)
 
         self.pin = pin
 
@@ -67,7 +72,7 @@ class CJMCU_3935(AbstractModel):
         GPIO.setup(pin, GPIO.IN)
         GPIO.add_event_detect(pin, GPIO.RISING, callback=self.handle_interrupt)
 
-        print("Waiting for lightning - or at least something that looks like it")
+        self.msg('Waiting for lightning - or at least something that looks like it')
 
     def handle_interrupt(self, channel):
         """
@@ -80,17 +85,39 @@ class CJMCU_3935(AbstractModel):
 
         reason = sensor.get_interrupt()
         if reason == 0x01:
-            print ("Noise level too high - adjusting")
+            self.msg('Noise level too high - adjusting')
             sensor.raise_noise_floor()
         elif reason == 0x04:
-            print ("Disturber detected - masking")
+            self.msg('Disturber detected - masking')
             sensor.set_mask_disturber(True)
         elif reason == 0x08:
             now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             distance = sensor.get_distance()
-            print("We sensed lightning!")
-            print("It was " + str(distance) + "km away. (%s)" % now)
-            print("")
+            self.msg('We sensed lightning!')
+            self.msg("It was " + str(distance) + "km away. (%s)" % now)
+            self.msg("------------------------")
+            self.msg("All Data:")
+            self.msg(str(self.sensor.get_distance()))
+            self.msg(str(self.sensor.get_interrupt()))
+            self.msg(str(self.sensor.get_energy()))
+            self.msg(str(self.sensor.get_noise_floor()))
+            self.msg(str(self.sensor.get_indoors()))
+            self.msg(str(self.sensor.get_mask_disturber()))
+            self.msg(str(self.sensor.get_disp_lco()))
+
+            if has_debug:
+                # TODO → Escribir en un archivo
+    def strike(self):
+        return None
+
+    def distance(self):
+        return self.sensor.get_distance()
+
+    def type(self):
+        return self.sensor.get_interrupt()
+
+    def energy(self):
+        return self.sensor.get_energy()
 
     def get_all_datas(self):
         """
@@ -101,9 +128,12 @@ class CJMCU_3935(AbstractModel):
         ## TODO → Mirando como almacenar datos para obtenerlos por lotes cada
         ## vez que uno sea detectado
 
-        if self.???:
+        if self.sensor:
             return {
-                "x": self.read_x(),
+                "strike": self.strike(),
+                "distance": self.distance(),
+                "type": self.type(),
+                "energy": self.energy(),
             }
 
         return None
