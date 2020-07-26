@@ -50,7 +50,7 @@ lightning = CJMCU_3935(mode_debug=True, indoor=True, pin=25)
 
 try:
     while True:
-        print('')
+        #print('')
 
         #lightning.debug()
 
