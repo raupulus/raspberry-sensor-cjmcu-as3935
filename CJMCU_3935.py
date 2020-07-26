@@ -43,7 +43,7 @@
 # usando el chip AS3935 por i2c en raspberry
 
 
-from Rpi_AS3935 import RPi_AS3935
+from RPi_AS3935 import RPi_AS3935
 import datetime
 import time
 from AbstractModel import AbstractModel
