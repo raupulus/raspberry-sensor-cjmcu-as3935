@@ -46,9 +46,14 @@ from abc import ABC, abstractmethod
 
 
 class AbstractModel(ABC):
-    # Parámetros para devolver datos del modelo de base de datos
+    # Parámetros para devolver datos del modelo de base de datos.
     @property
     def table_name(self):
+        pass
+
+    # Indica si el sensor trabaja en modo debug.
+    @property
+    def has_debug(self):
         pass
 
     @abstractmethod
@@ -81,7 +86,7 @@ class AbstractModel(ABC):
         :param message:
         :return:
         """
-        if not self.mode_debug:
+        if not self.has_debug:
             return
 
         print('\n')
