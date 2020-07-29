@@ -10,6 +10,8 @@ Este proyecto está escrito en python 3.7, por lo que no funcionará en una
 versión anterior a la **3** y no se garantiza que funcione correctamente en
 una versión anterior a la **3.7**
 
+La versión del sistema operativo en la raspberry pi es raspbian 10 stable.
+
 ## Dependencias desde pip
 
 Utilizando el gestor de paquetes pip para python 3 instalamos las dependencias:
