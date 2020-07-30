@@ -101,16 +101,32 @@ class CJMCU_3935(AbstractModel):
 
         reason = sensor.get_interrupt()
         if reason == 0x01:
-            self.msg('Noise level too high - adjusting')
+            self.msg('El nivel de ruido es demasiado alto → Ajustando')
+
+            fo = open("log_rayos.log", "a+")
+            fo.write('--------------------------' + os.linesep)
+            fo.write('El nivel de ruido es demasiado alto → Ajustando' + os.linesep)
+            fo.write('--------------------------' + os.linesep)
+            fo.write('' + os.linesep)
+            fo.close()
+
             sensor.raise_noise_floor()
         elif reason == 0x04:
-            self.msg('Disturber detected - masking')
+            self.msg('Se ha detectado una perturbación → Enmascarándola')
+
+            fo = open("log_rayos.log", "a+")
+            fo.write('--------------------------' + os.linesep)
+            fo.write('Se ha detectado una perturbación → Enmascarándola' + os.linesep)
+            fo.write('--------------------------' + os.linesep)
+            fo.write('' + os.linesep)
+            fo.close()
+
             sensor.set_mask_disturber(True)
         elif reason == 0x08:
             now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             distance = sensor.get_distance()
-            self.msg('We sensed lightning!')
-            self.msg("It was " + str(distance) + "km away. (%s)" % now)
+            self.msg('¡Se ha detectado un posible RAYO!')
+            self.msg("Está a " + str(distance) + "km de distancia. (%s)" % now)
             self.msg("------------------------")
             self.msg("All Data:")
             self.msg('Distance:' + str(self.sensor.get_distance()))
@@ -124,6 +140,7 @@ class CJMCU_3935(AbstractModel):
             if self.has_debug:
                 fo = open("log_rayos.log", "a+")
                 fo.write('--------------------------' + os.linesep)
+                fo.write('¡Se ha detectado un posible RAYO!' + os.linesep)
                 fo.write('Distance:' + str(self.sensor.get_distance()) + os.linesep)
                 fo.write('Interrupt:' + str(self.sensor.get_interrupt()) + os.linesep)
                 fo.write('Energy:' + str(self.sensor.get_energy()) + os.linesep)
