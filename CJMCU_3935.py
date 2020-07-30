@@ -99,17 +99,23 @@ class CJMCU_3935(AbstractModel):
         time.sleep(0.003)
         sensor = self.sensor
 
+        # Momento actual en formato timestamp.
+        now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
         reason = sensor.get_interrupt()
         if reason == 0x01:
             sensor.raise_noise_floor()
 
             if self.has_debug:
+                self.msg('--------------------------')
                 self.msg('El nivel de ruido es demasiado alto → Ajustando')
+                self.msg('Timestamp: ' + now)
+                self.msg('--------------------------')
 
                 fo = open("log_rayos.log", "a+")
                 fo.write('--------------------------' + os.linesep)
-                fo.write(
-                    'El nivel de ruido es demasiado alto → Ajustando' + os.linesep)
+                fo.write('El nivel de ruido es demasiado alto → Ajustando' + os.linesep)
+                fo.write('Timestamp: ' + now + os.linesep)
                 fo.write('--------------------------' + os.linesep)
                 fo.write('' + os.linesep)
                 fo.close()
@@ -118,11 +124,15 @@ class CJMCU_3935(AbstractModel):
             sensor.set_mask_disturber(True)
 
             if self.has_debug:
+                self.msg('--------------------------')
                 self.msg('Se ha detectado una perturbación → Enmascarándola')
+                self.msg('Timestamp: ' + now)
+                self.msg('--------------------------')
 
                 fo = open("log_rayos.log", "a+")
                 fo.write('--------------------------' + os.linesep)
                 fo.write('Se ha detectado una perturbación → Enmascarándola' + os.linesep)
+                fo.write('Timestamp: ' + now + os.linesep)
                 fo.write('--------------------------' + os.linesep)
                 fo.write('' + os.linesep)
                 fo.close()
@@ -132,10 +142,11 @@ class CJMCU_3935(AbstractModel):
             # TODO → Meter aquí la lógica de procesar datos y guardar detección
 
             if self.has_debug:
-                now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 distance = sensor.get_distance()
 
+                self.msg('--------------------------')
                 self.msg('¡Se ha detectado un posible RAYO!')
+                self.msg('Timestamp: ' + now)
                 self.msg(
                     "Está a " + str(distance) + "km de distancia. (%s)" % now)
                 self.msg("------------------------")
@@ -148,10 +159,12 @@ class CJMCU_3935(AbstractModel):
                 self.msg(
                     'Mask Disturber:' + str(self.sensor.get_mask_disturber()))
                 self.msg('Dis.lco:' + str(self.sensor.get_disp_lco()))
+                self.msg('--------------------------')
 
                 fo = open("log_rayos.log", "a+")
                 fo.write('--------------------------' + os.linesep)
                 fo.write('¡Se ha detectado un posible RAYO!' + os.linesep)
+                fo.write('Timestamp: ' + now + os.linesep)
                 fo.write('Distance:' + str(self.sensor.get_distance()) + os.linesep)
                 fo.write('Interrupt:' + str(self.sensor.get_interrupt()) + os.linesep)
                 fo.write('Energy:' + str(self.sensor.get_energy()) + os.linesep)
@@ -169,6 +182,7 @@ class CJMCU_3935(AbstractModel):
                 fo = open("log_rayos.log", "a+")
                 fo.write('--------------------------' + os.linesep)
                 fo.write('Se ha detectado algo no controlado aún' + os.linesep)
+                fo.write('Timestamp: ' + now + os.linesep)
                 fo.write('El código *reason* es:' + str(reason) + os.linesep)
                 fo.write('--------------------------' + os.linesep)
                 fo.write('' + os.linesep)
