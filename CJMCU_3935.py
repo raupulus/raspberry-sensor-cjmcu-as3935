@@ -82,11 +82,11 @@ class CJMCU_3935(AbstractModel):
         ## Inicio Callback para en cada detección registrar rayo
         GPIO.add_event_detect(self.pin, GPIO.RISING, callback=self.handle_interrupt)
 
-        self.msg('Waiting for lightning - or at least something that looks like it')
-
         if self.has_debug:
+            self.msg('Inicializado sensor de rayos y esperando detectar campos electromagnéticos para procesarlos.')
+
             fo = open("log_rayos.log", "a+")
-            str = "Inicializado sensor y Esperando datos"
+            str = 'Inicializado sensor de rayos y esperando detectar campos electromagnéticos para procesarlos.'
             fo.write(str + os.linesep)
             fo.close()
 
@@ -101,43 +101,54 @@ class CJMCU_3935(AbstractModel):
 
         reason = sensor.get_interrupt()
         if reason == 0x01:
-            self.msg('El nivel de ruido es demasiado alto → Ajustando')
-
-            fo = open("log_rayos.log", "a+")
-            fo.write('--------------------------' + os.linesep)
-            fo.write('El nivel de ruido es demasiado alto → Ajustando' + os.linesep)
-            fo.write('--------------------------' + os.linesep)
-            fo.write('' + os.linesep)
-            fo.close()
-
             sensor.raise_noise_floor()
-        elif reason == 0x04:
-            self.msg('Se ha detectado una perturbación → Enmascarándola')
-
-            fo = open("log_rayos.log", "a+")
-            fo.write('--------------------------' + os.linesep)
-            fo.write('Se ha detectado una perturbación → Enmascarándola' + os.linesep)
-            fo.write('--------------------------' + os.linesep)
-            fo.write('' + os.linesep)
-            fo.close()
-
-            sensor.set_mask_disturber(True)
-        elif reason == 0x08:
-            now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            distance = sensor.get_distance()
-            self.msg('¡Se ha detectado un posible RAYO!')
-            self.msg("Está a " + str(distance) + "km de distancia. (%s)" % now)
-            self.msg("------------------------")
-            self.msg("All Data:")
-            self.msg('Distance:' + str(self.sensor.get_distance()))
-            self.msg('Interrupt:' + str(self.sensor.get_interrupt()))
-            self.msg('Energy:' + str(self.sensor.get_energy()))
-            self.msg('Noise Floor:' + str(self.sensor.get_noise_floor()))
-            self.msg('In Indoor:' + str(self.sensor.get_indoors()))
-            self.msg('Mask Disturber:' + str(self.sensor.get_mask_disturber()))
-            self.msg('Dis.lco:' + str(self.sensor.get_disp_lco()))
 
             if self.has_debug:
+                self.msg('El nivel de ruido es demasiado alto → Ajustando')
+
+                fo = open("log_rayos.log", "a+")
+                fo.write('--------------------------' + os.linesep)
+                fo.write(
+                    'El nivel de ruido es demasiado alto → Ajustando' + os.linesep)
+                fo.write('--------------------------' + os.linesep)
+                fo.write('' + os.linesep)
+                fo.close()
+
+        elif reason == 0x04:
+            sensor.set_mask_disturber(True)
+
+            if self.has_debug:
+                self.msg('Se ha detectado una perturbación → Enmascarándola')
+
+                fo = open("log_rayos.log", "a+")
+                fo.write('--------------------------' + os.linesep)
+                fo.write('Se ha detectado una perturbación → Enmascarándola' + os.linesep)
+                fo.write('--------------------------' + os.linesep)
+                fo.write('' + os.linesep)
+                fo.close()
+
+        elif reason == 0x08:
+
+            # TODO → Meter aquí la lógica de procesar datos y guardar detección
+
+            if self.has_debug:
+                now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                distance = sensor.get_distance()
+
+                self.msg('¡Se ha detectado un posible RAYO!')
+                self.msg(
+                    "Está a " + str(distance) + "km de distancia. (%s)" % now)
+                self.msg("------------------------")
+                self.msg("All Data:")
+                self.msg('Distance:' + str(self.sensor.get_distance()))
+                self.msg('Interrupt:' + str(self.sensor.get_interrupt()))
+                self.msg('Energy:' + str(self.sensor.get_energy()))
+                self.msg('Noise Floor:' + str(self.sensor.get_noise_floor()))
+                self.msg('In Indoor:' + str(self.sensor.get_indoors()))
+                self.msg(
+                    'Mask Disturber:' + str(self.sensor.get_mask_disturber()))
+                self.msg('Dis.lco:' + str(self.sensor.get_disp_lco()))
+
                 fo = open("log_rayos.log", "a+")
                 fo.write('--------------------------' + os.linesep)
                 fo.write('¡Se ha detectado un posible RAYO!' + os.linesep)
@@ -148,6 +159,17 @@ class CJMCU_3935(AbstractModel):
                 fo.write('In Indoor:' + str(self.sensor.get_indoors()) + os.linesep)
                 fo.write('Mask Disturber:' + str(self.sensor.get_mask_disturber()) + os.linesep)
                 fo.write('Dis.lco:' + str(self.sensor.get_disp_lco()) + os.linesep)
+                fo.write('--------------------------' + os.linesep)
+                fo.write('' + os.linesep)
+                fo.close()
+        else:
+            if self.has_debug:
+                self.msg('Se ha detectado algo no controlado aún')
+
+                fo = open("log_rayos.log", "a+")
+                fo.write('--------------------------' + os.linesep)
+                fo.write('Se ha detectado algo no controlado aún' + os.linesep)
+                fo.write('El código *reason* es:' + str(reason) + os.linesep)
                 fo.write('--------------------------' + os.linesep)
                 fo.write('' + os.linesep)
                 fo.close()
