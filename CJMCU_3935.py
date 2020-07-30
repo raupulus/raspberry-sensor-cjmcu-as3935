@@ -57,7 +57,7 @@ class CJMCU_3935(AbstractModel):
     sensor = None
     has_debug = False
 
-    def __init__(self, address=0x03, bus=1, mode_debug=False, indoor=True, pin=25):
+    def __init__(self, address=0x03, bus=1, mode_debug=False, indoor=True, pin=26):
         # Marco el modo debug para el modelo.
         self.has_debug = mode_debug
 

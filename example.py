@@ -46,7 +46,7 @@ from CJMCU_3935 import CJMCU_3935
 
 import time
 
-lightning = CJMCU_3935(mode_debug=True, indoor=True, pin=25)
+lightning = CJMCU_3935(mode_debug=True, indoor=True, pin=26)
 
 try:
     while True:
