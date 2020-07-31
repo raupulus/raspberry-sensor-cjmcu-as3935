@@ -180,9 +180,9 @@ class CJMCU_3935(AbstractModel):
                 # Añado registro a un archivo JSON (timestamp, distance, energy)
                 fo = open("rayos.csv", "a+")
                 fo.write(os.linesep)
-                fo.write('Timestamp: ' + now + ';')
-                fo.write('Distance Km: ' + str(self.sensor.get_distance()) + ';')
-                fo.write('Energy: ' + str(self.sensor.get_energy()) + ';')
+                fo.write(str(self.sensor.get_energy()) + ';')  # Energy
+                fo.write(str(self.sensor.get_distance()) + ';')  # Distance
+                fo.write(now + ';')  # Timestamp
                 fo.close()
         else:
             if self.has_debug:
