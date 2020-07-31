@@ -100,7 +100,7 @@ class CJMCU_3935(AbstractModel):
         sensor = self.sensor
 
         # Momento actual en formato timestamp.
-        now = datetime.datetime.utcnow
+        now = datetime.datetime.utcnow()
 
         reason = sensor.get_interrupt()
         if reason == 0x01:
