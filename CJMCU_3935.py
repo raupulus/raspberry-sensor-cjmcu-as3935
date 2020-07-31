@@ -161,6 +161,7 @@ class CJMCU_3935(AbstractModel):
                 self.msg('Dis.lco:' + str(self.sensor.get_disp_lco()))
                 self.msg('--------------------------')
 
+                # Añado información al archivo de log común
                 fo = open("log_rayos.log", "a+")
                 fo.write('--------------------------' + os.linesep)
                 fo.write('¡Se ha detectado un posible RAYO!' + os.linesep)
@@ -174,6 +175,14 @@ class CJMCU_3935(AbstractModel):
                 fo.write('Dis.lco:' + str(self.sensor.get_disp_lco()) + os.linesep)
                 fo.write('--------------------------' + os.linesep)
                 fo.write('' + os.linesep)
+                fo.close()
+
+                # Añado registro a un archivo JSON (timestamp, distance, energy)
+                fo = open("rayos.csv", "a+")
+                fo.write(os.linesep)
+                fo.write('Timestamp: ' + now + ';')
+                fo.write('Distance Km: ' + str(self.sensor.get_distance()) + ';')
+                fo.write('Energy: ' + str(self.sensor.get_energy()) + ';')
                 fo.close()
         else:
             if self.has_debug:
