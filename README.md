@@ -12,6 +12,22 @@ una versión anterior a la **3.7**
 
 La versión del sistema operativo en la raspberry pi es raspbian 10 stable.
 
+## Sensor AS3935
+
+La caída de rayos produce descargas electrostáticas y este sensor reacciona al
+alto potencial eléctrico de estas.
+
+Se producen por tormentas eléctricas cargadas negativamente que caen a la tierra
+principalmente (75-90% de probabilidad) pero también de nube a nube.
+
+La corriente cambia rápidamente al sentir el pulso electromagnético (10-150ms)
+en la VLF (3k-30 kHz) y las bandas de radios ELF (<3 kHz)
+
+The maximum amplitude lies around 5-10KHz.
+
+El algoritmo de detección no modificable en el AS3935 está preparado para
+una señal de 500kHz.
+
 ## Dependencias desde pip
 
 Utilizando el gestor de paquetes pip para python 3 instalamos las dependencias:
