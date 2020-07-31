@@ -109,13 +109,13 @@ class CJMCU_3935(AbstractModel):
             if self.has_debug:
                 self.msg('--------------------------')
                 self.msg('El nivel de ruido es demasiado alto → Ajustando')
-                self.msg('Timestamp: ' + now)
+                self.msg('Timestamp: ' + str(now))
                 self.msg('--------------------------')
 
                 fo = open("log_rayos.log", "a+")
                 fo.write('--------------------------' + os.linesep)
                 fo.write('El nivel de ruido es demasiado alto → Ajustando' + os.linesep)
-                fo.write('Timestamp: ' + now + os.linesep)
+                fo.write('Timestamp: ' + str(now) + os.linesep)
                 fo.write('--------------------------' + os.linesep)
                 fo.write('' + os.linesep)
                 fo.close()
@@ -126,13 +126,13 @@ class CJMCU_3935(AbstractModel):
             if self.has_debug:
                 self.msg('--------------------------')
                 self.msg('Se ha detectado una perturbación → Enmascarándola')
-                self.msg('Timestamp: ' + now)
+                self.msg('Timestamp: ' + str(now))
                 self.msg('--------------------------')
 
                 fo = open("log_rayos.log", "a+")
                 fo.write('--------------------------' + os.linesep)
                 fo.write('Se ha detectado una perturbación → Enmascarándola' + os.linesep)
-                fo.write('Timestamp: ' + now + os.linesep)
+                fo.write('Timestamp: ' + str(now) + os.linesep)
                 fo.write('--------------------------' + os.linesep)
                 fo.write('' + os.linesep)
                 fo.close()
@@ -146,7 +146,7 @@ class CJMCU_3935(AbstractModel):
 
                 self.msg('--------------------------')
                 self.msg('¡Se ha detectado un posible RAYO!')
-                self.msg('Timestamp: ' + now)
+                self.msg('Timestamp: ' + str(now))
                 self.msg(
                     "Está a " + str(distance) + "km de distancia. (%s)" % now)
                 self.msg("------------------------")
@@ -165,7 +165,7 @@ class CJMCU_3935(AbstractModel):
                 fo = open("log_rayos.log", "a+")
                 fo.write('--------------------------' + os.linesep)
                 fo.write('¡Se ha detectado un posible RAYO!' + os.linesep)
-                fo.write('Timestamp: ' + now + os.linesep)
+                fo.write('Timestamp: ' + str(now) + os.linesep)
                 fo.write('Distance:' + str(self.sensor.get_distance()) + os.linesep)
                 fo.write('Interrupt:' + str(self.sensor.get_interrupt()) + os.linesep)
                 fo.write('Energy:' + str(self.sensor.get_energy()) + os.linesep)
@@ -182,7 +182,7 @@ class CJMCU_3935(AbstractModel):
                 fo.write(os.linesep)
                 fo.write(str(self.sensor.get_energy()) + ';')  # Energy
                 fo.write(str(self.sensor.get_distance()) + ';')  # Distance
-                fo.write(now + ';')  # Timestamp
+                fo.write(str(now) + ';')  # Timestamp
                 fo.close()
         else:
             if self.has_debug:
@@ -191,7 +191,7 @@ class CJMCU_3935(AbstractModel):
                 fo = open("log_rayos.log", "a+")
                 fo.write('--------------------------' + os.linesep)
                 fo.write('Se ha detectado algo no controlado aún' + os.linesep)
-                fo.write('Timestamp: ' + now + os.linesep)
+                fo.write('Timestamp: ' + str(now) + os.linesep)
                 fo.write('El código *reason* es:' + str(reason) + os.linesep)
                 fo.write('--------------------------' + os.linesep)
                 fo.write('' + os.linesep)
