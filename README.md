@@ -1,7 +1,7 @@
 # raspberry-sensor-cjmcu-3935
 
 Este repositorio está almacenado en gitlab:
-https://gitlab.com/fryntiz/raspberry-sensor-cjmcu-3935
+https://gitlab.com/raupulus/raspberry-sensor-cjmcu-as3935
 
 Repositorio para controlar por i2c el sensor CJMCU 3935 con el chip AS3935.
 Este chip se utiliza para detectar rayos y la distancia de estos.
